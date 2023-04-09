@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="snakeFevicon.png" type="image/x-icon">
+    <title>Snake Game</title>
+    <style>
+        body {
+            text-align: center;
+            /* background: url("bck.jpg"); */
+            background: royalblue;
+            background-size: 100% 120%;
+            margin: 0;
+
+        }
+
+        .animate-charcter {
+            text-transform: uppercase;
+            background-image: linear-gradient(-225deg,
+                    #231557 0%,
+                    #44107a 29%,
+                    #ff1361 67%,
+                    #fff800 100%);
+            /* background-size: auto auto; */
+            background-clip: border-box;
+            background-size: 200% auto;
+            /* color: #fff; */
+            /* background-clip: text; */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textclip 2s reverse infinite;
+            display: inline-block;
+            font-size: 28px;
+        }
+
+        @keyframes textclip {
+            to {
+                background-position: 200%;
+            }
+        }
+
+        canvas {
+            /* background-color: bisque; */
+            background: transparent;
+            border: 20px solid gold;
+            background: rgba(0, 0, 0, 0.1);
+            /* color: white;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px); */
+
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h3 id="myHead" class="animate-charcter"> Snake Game <span> </span></h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- <img id="scream" width="2px" height="2px" src="food.jpg" alt="The Scream"> -->
+
+    <canvas id="canvas" height="600px" width="700px"></canvas>
+
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext('2d');
+        // ctx.fillStyle = "pink";
+
+        // ctx.fillRect(0,0 ,50,40);
+
+        let square = 50;
+        let snakeCell = [[0, 0]];
+        let bWidth = 700;
+        let bHeight = 600;
+        let direction = 'right';
+        let gameOver = false;
+
+        let score = 0;
+        let foodG = generateRamdomCell();
+
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === 'ArrowRight') {
+                direction = 'right';
+            } else if (event.key === 'ArrowLeft') {
+                direction = 'left';
+            } else if (event.key === 'ArrowUp') {
+                direction = 'up';
+            } else {
+                direction = 'down';
+            }
+        });
+
+        // update the drawed contained
+        function update() {
+
+            headX = snakeCell[snakeCell.length - 1][0];
+            headY = snakeCell[snakeCell.length - 1][1];
+
+            let newX;
+            let newY;
+
+            if (direction === 'right') {
+                newX = headX + square;
+                newY = headY;
+
+                if (newX >= bWidth) {
+                    gameOver = true;
+                }
+
+
+            } else if (direction === 'left') {
+                newX = headX - square;
+                newY = headY;
+
+                if (newX < 0) {
+                    gameOver = true;
+                }
+
+            } else if (direction === 'up') {
+                newY = headY - square;
+                newX = headX;
+
+                if (newY < 0) {
+                    gameOver = true;
+                }
+
+            } else {
+                newY = headY + square;
+                newX = headX;
+                if (newY >= bHeight) {
+                    gameOver = true;
+                }
+            }
+            snakeCell.push([newX, newY]);
+
+            if (newX === foodG[0] && newY === foodG[1]) {
+                foodG = generateRamdomCell();
+                score += 1;
+            } else {
+                snakeCell.shift();
+            }
+        }
+
+        function generateRamdomCell() {
+            return [
+                Math.round(Math.random() * (bWidth - square) / square) * square,
+                Math.round(Math.random() * (bHeight - square) / square) * square]
+        }
+
+
+        // draw the content 
+        function draw() {
+            if (gameOver === true) {
+                // var ele=document.createElement("h3");
+                // var txt=document.createTextNode(`GameOver`);
+                // var combin=ele.appendChild(txt);
+                // let element=document.getElementById("canvas");
+                // element.append(combin);
+                // console.log(element.textContent)
+                clearInterval('id');
+                ctx.font = '30px sans-sarif'
+                ctx.fillStyle = "black"
+                ctx.fillText('Game Over', 40, 80);
+                // alert("Game Over");
+
+                return;
+            }
+
+            // ctx.fillStyle = "pink";
+            ctx.clearRect(0, 0, bWidth, bHeight)
+            // to make fillrect dynamice we have to make a loop.
+            for (let cell of snakeCell) {
+                const img1=new Image();
+                img1.src='./snake.png';
+                ctx.drawImage(img1,cell[0], cell[1], square, square )
+                // ctx.fillRect(cell[0], cell[1], square, square);
+            
+
+            }
+            ctx.fillStyle = "red";
+            ctx.font = '30px sans-sarif'
+            ctx.fillText(`Score :${score}`, 40, 40);
+
+            // ctx.fillStyle = "blue";
+            const img=new Image();
+            img.src='./strawberry.png';
+            ctx.drawImage(img,foodG[0], foodG[1], square ,square);
+            // ctx.fillRect(foodG[0], foodG[1], square ,square );
+           
+            
+        }
+
+        let id = setInterval(function () {
+            update();
+            draw();
+            generateRamdomCell();
+        }, 100)
+
+
+
+
+    </script>
+</body>
+
+</html>
