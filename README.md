@@ -1,6 +1,6 @@
 # Snake Game using HTML, CSS, and JavaScript
 
-![Snake Game Screenshot](screenshot.png)
+#![Snake Game Screenshot](screenshot.png)
 Check Website there : https://ajay1455.github.io/snakeGame/Snakegame.html
 
 ## Description
