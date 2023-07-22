@@ -25,21 +25,3 @@ The Snake Game is a classic arcade game where players control a snake that moves
 3. Guide the snake to consume the food items, increasing its length and score.
 4. Be cautious not to run the snake into the borders or its own body, as that will result in game over.
 
-## Live Demo
-
-(Optional) Provide a link to a live demo of the game hosted on GitHub Pages or any other platform.
-
-## Credits
-
-(Optional) If you used any external resources or tutorials to create the game, mention them here and give credit to the respective creators.
-
-## License
-
-This project is licensed under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Contact
-
-If you have any questions or suggestions, feel free to contact me:
-
-- GitHub: [Your GitHub Username](https://github.com/your-username)
-- Email: your@email.com
